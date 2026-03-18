@@ -1,32 +1,25 @@
-"use client";
+"use client"
 
 import { useEffect, useRef, useState } from "react";
 import { Element } from 'react-scroll';
+import { Post } from "@/app/types/types";
+import Link from "next/link";
 
-const articles = [
-  {
-    image: null,
-    title: "無料体験会の実施",
-    date: "2026年3月2日",
-    href: "#",
-  },
-  {
-    image: null,
-    title: "大会出場",
-    date: "2026年3月2日",
-    href: "#",
-  },
-  {
-    image: null,
-    title: "タイトル",
-    date: "2026年3月2日",
-    href: "#",
-  },
-];
+interface postProps {
+    articles:Post[];
+}
 
-export default function Articles() {
+
+export default  function Articles({articles}:postProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+
+  const [ currentPage, setCurrentPage ] = useState(1)
+  const postsPerPage = 6
+  const displayArticles = articles.slice(
+    (currentPage - 1) * postsPerPage,
+    currentPage * postsPerPage
+  )
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -38,7 +31,7 @@ export default function Articles() {
   }, []);
 
   return (
-    <section className="bg-[#e8eef8] px-8 py-16 md:px-20">
+    <section id="articles" className="bg-[#e8eef8] px-8 py-16 md:px-20">
       <Element name="articleSection">
       {/* タイトル */}
       <h2
@@ -55,10 +48,10 @@ export default function Articles() {
         ref={ref}
         className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full"
       >
-        {articles.map((article, i) => (
-          <a
-            key={i}
-            href={article.href}
+        {displayArticles.map((article, i) => (
+          <Link
+            href={`/posts/${article.id}`}
+            key={article.id}
             className={`group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-500 ${
               visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
@@ -79,12 +72,16 @@ export default function Articles() {
 
             {/* テキスト部分 */}
             <div className="p-4">
-              <p className="text-base font-bold underline mb-3 text-blue-600 group-hover:text-blue-800 transition-colors duration-200">
+              <p className="text-base text-xl font-bold underline mb-3 text-blue-600 group-hover:text-blue-800 transition-colors duration-200">
                 {article.title}
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600 bg-gray-100 rounded-full px-3 py-1">
-                  {article.date}
+                <span className="text-sm font-bold text-gray-600 bg-gray-100 rounded-full px-3 py-1">
+                  {new Date(article.createdAt).toLocaleDateString("ja-JP",{
+                    year:"numeric",
+                    month:"long",
+                    day:"numeric"
+                  })}
                 </span>
                 <img
                   src="/image/矢印ボタン　右3.png"
@@ -93,7 +90,23 @@ export default function Articles() {
                 />
               </div>
             </div>
-          </a>
+          </Link>
+        ))}
+      </div>
+      {/* ページネーション */}
+      <div className="flex justify-center gap-2 mt-10">
+        {Array.from({ length: Math.ceil(articles.length / postsPerPage) }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentPage(i + 1)}
+            className={`w-10 h-10 rounded-full font-bold transition-colors ${
+              currentPage === i + 1
+                ? "bg-blue-600 text-white"
+                : "bg-white text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            {i + 1}
+          </button>
         ))}
       </div>
       </Element>

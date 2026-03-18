@@ -5,13 +5,17 @@ import WhyQuit from "./components/WhyQuit";
 import WhyFreiheit from "./components/WhyFreiheit";
 import ForParents from "./components/ForParents";
 import Experience from "./components/Experience";
-import Articles from "./components/Articles";
+import ArticleList from "./components/article/ArticleList"
 import Access from "./components/Access";
 import Staff from "./components/Staff";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
-export default function Home() {
+export default async function Home() {
+   const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/post`,{
+        cache: "no-store",
+      })
+      const { posts: articles } = await response.json();
   return (
     <>
       <Header />
@@ -22,7 +26,7 @@ export default function Home() {
         <WhyFreiheit />
         <ForParents />
         <Experience />
-        <Articles />
+        <ArticleList articles={articles} />
         <Access />
         <Staff />
         <Contact />

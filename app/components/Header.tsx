@@ -36,7 +36,7 @@ export default function Header() {
             className="object-contain max-h-[66px] w-auto"
             priority
           />
-          <h1 className="ml-2 text-xl font-bold tracking-widest text-sky-600">freiheit</h1>
+          <h1 className="ml-2 text-xl font-bold tracking-widest text-sky-600">Freiheit</h1>
         </Link>
 
         {/* PCナビ */}
@@ -62,7 +62,7 @@ export default function Header() {
         >
           <span
             className={`block w-6 h-0.5 bg-gray-700 transition-all duration-300 ${
-              menuOpen ? "rotate-45 translate-y-1.5" : ""
+              menuOpen ? "rotate-45 translate-y-2" : ""
             }`}
           />
           <span
@@ -72,7 +72,7 @@ export default function Header() {
           />
           <span
             className={`block w-6 h-0.5 bg-gray-700 mt-1.5 transition-all duration-300 ${
-              menuOpen ? "-rotate-45 -translate-y-1.5" : ""
+              menuOpen ? "-rotate-45 -translate-y-2" : ""
             }`}
           />
         </button>

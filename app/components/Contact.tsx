@@ -1,9 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Element } from 'react-scroll';
 
 export default function Contact() {
+  // フォームの状態
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [number, setNumber] = useState("")
+  const [grade, setGrade] = useState("")
+  const [message, setMessage] = useState("")
+  const [state, setState] = useState<"idle" | "success" | "error" | "ratelimit">("idle")
+
+  // スクロールアニメーション
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -15,6 +24,28 @@ export default function Contact() {
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
+
+  const handleSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+
+    const res = await fetch("/api/email", {
+      method: "POST",
+      body: JSON.stringify({ name, number, email, grade, message }),
+    })
+    await res.json().catch(() => null);
+
+      if (res.status === 429) {
+      setState("ratelimit")  
+      return
+    }
+
+    if (!res.ok) {
+      setState("error");
+      return;
+    }
+
+    setState("success");
+  }
 
   return (
     <section id="contact" className="bg-[#cce8f8] px-8 py-16 md:px-20">
@@ -58,7 +89,7 @@ export default function Contact() {
         </p>
 
         {/* フォーム */}
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {/* お名前 */}
           <div>
             <label className="block text-base font-black mb-2" style={{ color: "#0d1b5e" }}>
@@ -68,6 +99,7 @@ export default function Contact() {
               type="text"
               required
               placeholder="田中太郎（例）"
+              onChange={(e) => setName(e.target.value)}
               className="w-full bg-white rounded-xl px-5 py-4 text-base placeholder-sky-300 outline-none border border-transparent focus:border-sky-400 transition-colors"
             />
           </div>
@@ -81,6 +113,7 @@ export default function Contact() {
               type="email"
               required
               placeholder="example@email.com（例）"
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-white rounded-xl px-5 py-4 text-base placeholder-sky-300 outline-none border border-transparent focus:border-sky-400 transition-colors"
             />
           </div>
@@ -93,6 +126,7 @@ export default function Contact() {
             <input
               type="tel"
               placeholder="080-0000-0000（例）"
+              onChange={(e) => setNumber(e.target.value)}
               className="w-full bg-white rounded-xl px-5 py-4 text-base placeholder-sky-300 outline-none border border-transparent focus:border-sky-400 transition-colors"
             />
           </div>
@@ -103,19 +137,21 @@ export default function Contact() {
               お子様の学年 <span className="text-red-500">*</span>
             </label>
             <select
+              defaultValue=""
               required
+              onChange={(e) => setGrade(e.target.value)}
               className="w-full bg-white rounded-xl px-5 py-4 text-base text-gray-500 outline-none border border-transparent focus:border-sky-400 transition-colors appearance-none"
             >
-              <option value="" disabled selected>選択してください</option>
-              <option value="elementary1">小学1年生</option>
-              <option value="elementary2">小学2年生</option>
-              <option value="elementary3">小学3年生</option>
-              <option value="elementary4">小学4年生</option>
-              <option value="elementary5">小学5年生</option>
-              <option value="elementary6">小学6年生</option>
-              <option value="middle1">中学1年生</option>
-              <option value="middle2">中学2年生</option>
-              <option value="middle3">中学3年生</option>
+              <option value="" disabled>選択してください</option>
+              <option value="小学1年生">小学1年生</option>
+              <option value="小学2年生">小学2年生</option>
+              <option value="小学3年生">小学3年生</option>
+              <option value="小学4年生">小学4年生</option>
+              <option value="小学5年生">小学5年生</option>
+              <option value="小学6年生">小学6年生</option>
+              <option value="中学1年生">中学1年生</option>
+              <option value="中学2年生">中学2年生</option>
+              <option value="中学3年生">中学3年生</option>
             </select>
           </div>
 
@@ -128,6 +164,7 @@ export default function Contact() {
               required
               placeholder="練習日程を教えてください。（例）"
               rows={4}
+              onChange={(e) => setMessage(e.target.value)}
               className="w-full bg-white rounded-xl px-5 py-4 text-base placeholder-sky-300 outline-none border border-transparent focus:border-sky-400 transition-colors resize-none"
             />
           </div>
@@ -147,6 +184,18 @@ export default function Contact() {
             </button>
           </div>
         </form>
+
+        {/* 送信結果メッセージ */}
+        {state === "success" && (
+          <p className="mt-4 text-center text-blue-600 text-2xl font-bold">お問い合わせありがとうございます。<br/>内容を確認の上、担当者よりご連絡いたします。</p>
+        )}
+        {state === "error" && (
+          <p className="mt-4 text-center text-red-500 text-2xl font-bold">送信に失敗しました。もう一度お試しください。</p>
+        )}
+        {state === "ratelimit" && (
+          <p className="mt-4 text-center text-red-500 text-2xl font-bold">短時間に複数回送信されました。<br/>10分ほど経ってからもう一度お試しください。</p>
+        )}
+
 
         {/* LINE */}
         <div className="mt-10 text-center space-y-4">
