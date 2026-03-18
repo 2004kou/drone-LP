@@ -1,37 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ドローンスクール LP サイト
 
-## Getting Started
+ドローンサッカースクールのランディングページです。お問い合わせフォーム・ブログ記事管理・管理者画面を備えています。
 
-First, run the development server:
+## 技術スタック
+
+| カテゴリ | 使用技術 |
+|---|---|
+| フレームワーク | Next.js 15 (App Router) |
+| 言語 | TypeScript |
+| スタイリング | Tailwind CSS |
+| 認証 | NextAuth.js |
+| ORM | Prisma |
+| DB | PostgreSQL（Supabase） |
+| メール送信 | Nodemailer |
+| テスト | Jest |
+
+## 機能
+
+- LP（ランディングページ）表示
+- お問い合わせフォーム（メール送信）
+- ブログ記事一覧・詳細表示
+- 管理者画面（記事の作成・編集・削除）
+- 認証（管理者ログイン）
+
+## セットアップ
+
+### 1. リポジトリをクローン
+
+```bash
+git clone <リポジトリURL>
+cd my-company-lp
+```
+
+### 2. パッケージのインストール
+
+```bash
+npm install
+```
+
+### 3. 環境変数の設定
+
+`.env` ファイルをルートに作成し、以下を設定してください：
+
+```env
+DATABASE_URL=postgresql://...
+
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=
+
+NODEMAILER_EMAIL=
+NODEMAILER_PASSWORD=
+```
+
+### 4. DBのセットアップ
+
+```bash
+npx prisma migrate dev
+```
+
+### 5. 開発サーバーの起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[http://localhost:3000](http://localhost:3000) で確認できます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## テストの実行
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# 全テスト実行
+npm test
 
-## Learn More
+# ファイルを監視して自動実行
+npm run test:watch
+```
 
-To learn more about Next.js, take a look at the following resources:
+## ディレクトリ構成
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# drone-LP
+```
+├── app/
+│   ├── api/          # APIルート（post / email / auth）
+│   ├── admin/        # 管理者画面
+│   ├── components/   # UIコンポーネント
+│   └── posts/        # 記事一覧・詳細ページ
+├── lib/              # 認証・DB・バリデーション
+├── prisma/           # DBスキーマ
+└── __tests__/        # テストコード
+```
