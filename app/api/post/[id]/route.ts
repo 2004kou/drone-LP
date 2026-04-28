@@ -1,12 +1,8 @@
-import {prisma}  from "@/lib/db"
-import { NextResponse, NextRequest } from "next/server";
-import { auth } from "@/lib/auth"
-import { postSchema } from "@/lib/validations";
-import { z } from "zod";
+import { prisma } from "@/lib/db"
+import { NextResponse } from "next/server";
 
 
-
-export async function GET(req:Request,
+export async function GET(req: Request,
     {params}:{params: Promise<{id:string}>}) {
     const {id} = await params
     const postDetailData = await prisma.post.findUnique(
@@ -21,8 +17,15 @@ export async function GET(req:Request,
         { status: 404 }
       );}
     return NextResponse.json(postDetailData)
-    
+
 }
+
+// 記事編集・削除機能はコメントアウト中
+/*
+import { NextRequest } from "next/server";
+import { auth } from "@/lib/auth"
+import { postSchema } from "@/lib/validations";
+import { z } from "zod";
 
 export async function PUT(req: NextRequest, { params }: {params:Promise<{id:string}>}) {
   const {id} = await params
@@ -119,3 +122,4 @@ export async function DELETE(req: NextRequest, { params }: {params:Promise<{id:s
     );
   }
 }
+*/

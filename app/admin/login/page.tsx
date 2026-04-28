@@ -1,3 +1,9 @@
+// 認証機能はコメントアウト中
+export default function LoginForm() {
+  return null;
+}
+
+/*
 "use client"
 
 import { useState, useTransition } from "react";
@@ -65,3 +71,4 @@ export default function LoginForm() {
     </Card>
   );
 }
+*/

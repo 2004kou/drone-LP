@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
-import { postSchema } from "@/lib/validations"
-import { auth } from "@/lib/auth";
-import { z } from "zod"
 
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
       const posts = await prisma.post.findMany({
         where:{
@@ -23,13 +20,19 @@ export async function GET(request: NextRequest) {
     }
 
    catch (error) {
-  console.error("GETエラー:", error)  // ← 追加
+  console.error("GETエラー:", error)
   return NextResponse.json(
     { error: "投稿の取得に失敗しました" },
     { status: 500 }
   )
 }
 }
+
+// 記事投稿機能はコメントアウト中
+/*
+import { auth } from "@/lib/auth";
+import { postSchema } from "@/lib/validations"
+import { z } from "zod"
 
 export async function POST(request: NextRequest) {
   try {
@@ -41,9 +44,6 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       )
     }
-    
-    
-    
 
     const body = await request.json()
     const validatedData = postSchema.parse(body)
@@ -75,3 +75,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+*/

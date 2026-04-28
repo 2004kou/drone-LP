@@ -1,3 +1,9 @@
+// 記事編集機能はコメントアウト中
+export default function EditPostList() {
+  return null;
+}
+
+/*
 "use client"
 
 import { useEffect, useRef, useState } from "react";
@@ -56,7 +62,6 @@ export default  function EditPostList() {
             }`}
             style={{ transitionDelay: `${i * 120}ms` }}
           >
-            {/* サムネイル */}
             <div className="w-full h-48 bg-gray-200 overflow-hidden">
               {article.image ? (
                 <img
@@ -71,7 +76,6 @@ export default  function EditPostList() {
               )}
             </div>
 
-            {/* テキスト部分 */}
             <div className="p-4">
               <p className="text-lg font-bold mb-2 text-gray-800 line-clamp-2">
                 {article.title}
@@ -85,7 +89,6 @@ export default  function EditPostList() {
               </span>
             </div>
 
-            {/* ボタン */}
             <div className="flex gap-2 px-4 pb-4">
               <Button asChild size="sm">
                 <Link href={`/posts/edit/${article.id}`}>編集</Link>
@@ -103,7 +106,6 @@ export default  function EditPostList() {
           </div>
         ))}
       </div>
-     {/* ページネーション */}
       <div className="flex justify-center gap-2 mt-10">
         {Array.from({ length: Math.ceil(articles.length / postsPerPage) }).map((_, i) => (
           <button
@@ -122,3 +124,4 @@ export default  function EditPostList() {
     </section>
   );
 }
+*/

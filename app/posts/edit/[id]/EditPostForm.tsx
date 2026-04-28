@@ -1,3 +1,6 @@
+// 記事編集機能はコメントアウト中
+
+/*
 "use client";
 
 import { useState, useTransition } from "react";
@@ -81,7 +84,7 @@ export default function EditPostForm({post}:EditPostFormProps) {
   }
 
 
-  
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="bg-white w-full max-w-xl rounded-2xl shadow-md p-8">
@@ -138,3 +141,4 @@ export default function EditPostForm({post}:EditPostFormProps) {
     </div>
   );
 }
+*/

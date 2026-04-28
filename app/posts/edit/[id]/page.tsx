@@ -1,3 +1,9 @@
+// 記事編集機能はコメントアウト中
+export default function Page() {
+  return null;
+}
+
+/*
 import EditPostForm from "./EditPostForm";
 import { prisma } from "@/lib/db";
 
@@ -19,5 +25,4 @@ export default async function Page({ params }: { params: Promise<{id:string}> })
   // 取得したpostをまるごとEditPostFormに渡す
   return <EditPostForm post={post} />;
 }
-
-  
+*/

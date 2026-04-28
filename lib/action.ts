@@ -1,3 +1,6 @@
+// 認証機能はコメントアウト中
+
+/*
 "use server"
 import { redirect } from "next/navigation";
 import { signIn } from '@/lib/auth';
@@ -29,3 +32,4 @@ export async function authenticate(
 export async function logout() {
   await signOut({ redirectTo: "/login" });
 }
+*/

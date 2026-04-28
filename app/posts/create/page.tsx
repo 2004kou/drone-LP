@@ -1,3 +1,9 @@
+// 記事投稿機能はコメントアウト中
+export default function CreatePage() {
+  return null;
+}
+
+/*
 "use client";
 
 import { useState, useTransition } from "react";
@@ -75,7 +81,7 @@ export default function CreatePage() {
   }
 
 
-  
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="bg-white w-full max-w-xl rounded-2xl shadow-md p-8">
@@ -124,3 +130,4 @@ export default function CreatePage() {
     </div>
   );
 }
+*/
